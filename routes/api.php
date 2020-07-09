@@ -17,3 +17,19 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Route::resource('import-data', function () {
+//     return response('hello');
+// });
+
+Route::resource('import-data', \Api\DataImportController::class)
+    ->only('index');
+
+Route::resource('record-count', \Api\CountController::class)
+    ->only('index');
+
+Route::resource('search', \Api\SearchController::class)
+    ->only('store');
+
+Route::resource('export', \Api\ExportController::class)
+    ->only('store');
