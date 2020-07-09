@@ -1,0 +1,103 @@
+#This file is inside a folder named 'dock' at the root of my laravel project
+version: "3.2"
+services:
+    #PHP with apache
+    pay_container:
+      #image will be built by processing the Dockerfile in this path
+      build: .
+      # working_dir: /var/www/html
+      container_name: pay_cont
+      command:
+        sh ./dock-files/startup.sh
+      environment:
+        XDEBUG_CONFIG: remote_host=host.docker.internal remote_port=9000 remote_enable=1
+      links:
+        - redis
+        - db
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.pay_container.rule=Host(`pay.localhost`)"
+        - "traefik.http.routers.pay_container.entrypoints=web"
+        - "traefik.port=80"
+      #map host folders (relative to this file) to service
+      volumes:
+        - ./:/var/www/html
+        # - ./public/:/var/www/html
+        # - type: bind
+        #   source: ./public
+        #   target: /var/www/html/
+      #mark the db services as a dependency
+      depends_on:
+        - redis
+        - db
+      restart:
+        always
+      networks:
+        - traefik_webgateway
+        - internal
+      ports:
+        - "8087:80"
+        - 6001:6001
+    #mysql db
+    db:
+      # image: mysql:5.7.20
+      build: ./dock-files/MySqlDB
+      container_name: mysql-database
+      restart: always
+      #storing the mysql folder outside allows persistence
+      volumes:
+        - ./dock-mysql:/var/lib/mysql
+      environment:
+        MYSQL_ROOT_PASSWORD: mysql_root_password1
+        MYSQL_USER: user
+        MYSQL_PASSWORD: mysql_user_password1
+        MYSQL_DATABASE: mysql
+      labels:
+        - "traefik.enable=false"
+      networks:
+        internal:
+          aliases:
+            - mysql
+      ports:
+      - "4314:3306"
+    #redis
+    redis:
+      command: redis-server --requirepass secret
+      image: redis
+      container_name: redis
+      labels:
+        - "traefik.enable=false"
+      networks:
+        internal:
+          aliases:
+            - redis
+      volumes:
+        - "redis_data:/data"
+    es01:
+      image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+      container_name: es01
+      environment:
+        - node.name=es01
+        - discovery.type=single-node
+        - bootstrap.memory_lock=true
+        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      ulimits:
+        memlock:
+          soft: -1
+          hard: -1
+      volumes:
+        - data01:/usr/share/elasticsearch/data
+      ports:
+        - 9200:9200
+        - 9300:9300
+      networks:
+        - internal
+volumes:
+    db_data:
+    redis_data:
+    data01:
+networks:
+  traefik_webgateway:
+    external: true
+  internal:
+    external: true
