@@ -27,14 +27,9 @@ class GeneralPaymentDataExport implements FromCollection
     */
     public function collection()
     {
-        $testCollect = GeneralPaymentData::search(
+        return GeneralPaymentData::search(
             $this->searchData
         )
-            // ->where('Applicable_Manufacturer_or_Payment_Name', $this->searchData)
             ->get();
-
-        logger()->error('got teh collect');
-        logger()->error($testCollect);
-        return $testCollect;
     }
 }

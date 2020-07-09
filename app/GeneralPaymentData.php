@@ -45,15 +45,6 @@ class GeneralPaymentData extends Model
      // Here you can specify a mapping for model fields
      protected $mapping = [
         'properties' => [
-            // 'title' => [
-                // 'type' => 'text',
-                // Also you can configure multi-fields, more details you can find here https://www.elastic.co/guide/en/elasticsearch/reference/current/multi-fields.html
-            //     'fields' => [
-            //         'raw' => [
-            //             'type' => 'keyword',
-            //         ]
-            //     ]
-            // ],
             'Change_Type' => [
                 'type' => 'text'
             ],
@@ -364,14 +355,4 @@ class GeneralPaymentData extends Model
         'Program_Year',
         'Payment_Publication_Date'
     ];
-
-    // /**
-    //  * Get the index name for the model.
-    //  *
-    //  * @return string
-    //  */
-    // public function searchableAs()
-    // {
-    //     return 'posts_index';
-    // }
 }

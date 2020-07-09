@@ -60,14 +60,9 @@ class FetchPayData implements ShouldQueue
      */
     private function importData() : bool
     {
-        // really big dataset
-        // $testEndpoint = 'https://openpaymentsdata.cms.gov/api/views/p2ve-2ws5/rows.csv?accessType=DOWNLOAD';
-        // reasonable sized dataset
-        $testEndpoint = 'https://openpaymentsdata.cms.gov/resource/p2ve-2ws5.csv?%24where=(teaching_hospital_ccn%20%3D%20%27440039%27)&%24order=total_amount_of_payment_usdollars%20DESC';
-
         try {
             $client = new Client();
-            $response = $client->request('GET', $testEndpoint, [
+            $response = $client->request('GET', $this->endpoint, [
             ]);
 
             Storage::disk('local')->put('download.csv', $response->getBody()->getContents());

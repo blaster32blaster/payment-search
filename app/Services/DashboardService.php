@@ -18,6 +18,5 @@ class DashboardService
     public function index() : View
     {
         return view('dashboard')->with('title', 'Payment Data Search');
-        // return response('hello');
     }
 }

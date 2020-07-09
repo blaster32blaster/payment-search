@@ -48,11 +48,6 @@
     name: 'autocomplete',
 
     props: {
-    //   items: {
-    //     type: Array,
-    //     required: false,
-    //     default: () => [],
-    //   },
       isAsync: {
         type: Boolean,
         required: false,
@@ -115,9 +110,6 @@
                     });
             },
       onChange() {
-        // Let's warn the parent that a change was made
-        // this.$emit('input');
-
         // Is the data given by an outside ajax request?
 
         if (this.isAsync) {

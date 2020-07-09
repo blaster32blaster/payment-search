@@ -22,10 +22,6 @@ services:
       #map host folders (relative to this file) to service
       volumes:
         - ./:/var/www/html
-        # - ./public/:/var/www/html
-        # - type: bind
-        #   source: ./public
-        #   target: /var/www/html/
       #mark the db services as a dependency
       depends_on:
         - redis

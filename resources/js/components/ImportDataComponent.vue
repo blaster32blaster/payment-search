@@ -15,9 +15,6 @@
             >
             </vue-simple-spinner>
         </div>
-        <!-- <p v-for="(message, index) in messages" v-bind:key="index">
-            {{ message}}
-        </p> -->
     </div>
 </template>
 <script>
@@ -36,7 +33,6 @@
         },
         methods: {
             broadcast() {
-                // axios.get('/broadcast-test');
                 this.loading = true
                 axios.get('/api/import-data');
             }

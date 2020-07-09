@@ -15,18 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::resource('/', 'DashboardController')
     ->only('index');
 
-Route::get('/broadcast-test', function() {
-    event(new TestEvent('The server time is now ' . date('H:i:s')));
-    });
-
-Route::get('/fire', function () {
-    event(new TestEvent('here we go again'));
-    return 'ok';
-});
